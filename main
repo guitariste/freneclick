@@ -32,10 +32,6 @@ import argparse
 #import signal
 import optparse
 
-#The following modules permitte tor interact with javascript with selenium.
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-
 #list the avaible circuit withe the followings modules:
 from stem import CircStatus
 from stem.control import Controller
