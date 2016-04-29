@@ -119,8 +119,11 @@ action = sys.argv[0]
 parser = argparse.ArgumentParser(description="Make a bot click in the same +1 bottom over differents exit nodes to cheat the IP filtartion.")
 parser.add_argument("u", type=str, help = "The url of the webpage where the differents request will be sent.")
 parser.add_argument("-u", "--update", action="store_true", help="This action permittes to update the tor exit node fingerprint list not to waste time downloading the fingerprint list of course over tor network and work on a file to exctract it.")
-parser.add_argument("-c", "--circuit", help="Permit to the user to choose the number of request. For a usage example in case of +1 robot, the user should be able to choose the +1 he will send or do some experimentations.", action = "store_true")
-parser.add_argument("n", type=int, nargs="?", help = "The number of differents tor circuits used to send the same request.") #optional option (only if and after we use --choose-number option). Example: required=False.
+parser.add_argument("-c", "--circuit", type=int, dest="loops", help="Permit to the user to choose the number of request. For a usage example in case of +1 robot, the user should be able to choose the +1 he will send or do some experimentations.")
+
+
+
+
 parser.add_argument("-a", "--all", action="store_true", help="This action or more like this option actually, permittes to the user to use every connected and online exit nodes.")
 
 args = parser.parse_args()
@@ -135,10 +138,10 @@ tor_exit_nodes_fingerprint_list = load("disponible tor exit nodes list")
 read_a_list(tor_exit_nodes_fingerprint_list)
 
 #If the user choose the number of circuits...
-if args.circuit:
+if args.loops:
     """Let the user choose the number of request he wants to choose."""
     #The programme taks the argument know as [n] write by the user.
-    automatical_request_number = args.n
+    automatical_request_number = args.loops
     error = 0
     i = 0
     click = 0
@@ -170,4 +173,5 @@ elif args.all:
         finally:
             i += 1
         if error > 3 or error == 3:
+            print("Three errors or more occured during this session. That may be a error due to an existing tor process. Check it and kill it if necessary.")
             break
